@@ -1,0 +1,28 @@
+---
+- name: Install or Update dotfiles
+  git:
+    repo: https://github.com/trkw/dotfiles
+    dest: ~/dotfiles
+    update: yes
+    track_submodules: yes
+
+- name: Link dotfiles
+  file:
+    src: ~/dotfiles/{{ item }}
+    dest: ~/{{ item }}
+    state: link
+  with_items:
+    - .zshrc
+    - .zinit
+    - .gitconfig
+
+# for zsh compinit err fix
+# err msg -> zsh compinit: insecure directories, run compaudit for list.
+# Ignore insecure directories and continue [y] or abort compinit [n]?
+- name: for zsh compinit err fix
+  file:
+    path: "{{ item }}"
+    mode: 0755
+  with_items:
+    - /usr/local/share/zsh/site-functions
+    - /usr/local/share/zsh

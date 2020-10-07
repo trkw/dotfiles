@@ -1,0 +1,31 @@
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/core"
+brew "ansible"
+brew "ansible-lint"
+brew "cfssl"
+brew "gh"
+brew "ghq"
+brew "hub"
+brew "jq"
+brew "kubernetes-cli"
+brew "mas"
+brew "nodebrew"
+brew "peco"
+brew "tig"
+brew "tmux"
+brew "watch"
+brew "wget"
+brew "yamllint"
+cask "alfred"
+cask "discord"
+cask "google-chrome"
+cask "google-cloud-sdk"
+cask "google-japanese-ime"
+cask "notion"
+cask "visual-studio-code"
+mas "Keynote", id: 409183694
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "Moom", id: 419330170
+mas "Spark", id: 1176895641
