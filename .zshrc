@@ -40,7 +40,7 @@ if [[ "$(locale LC_CTYPE)" == "UTF-8" ]]; then
 fi
 
 HISTSIZE=1000
-SAVEHIST=10000               
+SAVEHIST=10000
 setopt hist_ignore_dups
 setopt extended_history
 setopt hist_reduce_blanks
