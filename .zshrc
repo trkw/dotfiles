@@ -47,6 +47,75 @@ setopt hist_reduce_blanks
 setopt hist_no_store
 setopt inc_append_history
 
+### key bindings ###
+select_history() {
+    local selected="$(history -nr 1 | awk '!a[$0]++' | fzf --query "$LBUFFER" | sed 's/\\n/\n/g')"
+    if [ -n "$selected" ]; then
+        BUFFER="$selected"
+        CURSOR=$#BUFFER
+    fi
+    zle -R -c # refresh screen
+}
+
+select_cdr() {
+    local selected="$(cdr -l | awk '{ $1=""; print }' | sed 's/^ //' | fzf --preview "fzf-preview-directory '{}'" --preview-window=right:50%)"
+    if [ -n "$selected" ]; then
+        BUFFER="cd $selected"
+        zle accept-line
+    fi
+    zle -R -c # refresh screen
+}
+
+select_ghq() {
+    local root="$(ghq root)"
+    local selected="$(GHQ_ROOT="$root" ghq list | fzf --preview "fzf-preview-git $root/{}" --preview-window=right:60%)"
+    if [ -n "$selected" ]; then
+        BUFFER="cd \"$(GHQ_ROOT="$root" ghq list --exact --full-path "$selected")\""
+        zle accept-line
+    fi
+    zle -R -c # refresh screen
+}
+
+select_ghq_go() {
+    local root="$GOPATH/src"
+    local selected="$(GHQ_ROOT="$root" ghq list | fzf --preview "fzf-preview-git $root/{}" --preview-window=right:60%)"
+    if [ -n "$selected" ]; then
+        BUFFER="cd \"$(GHQ_ROOT="$root" ghq list --exact --full-path "$selected")\""
+        zle accept-line
+    fi
+    zle -R -c # refresh screen
+}
+
+select_dir() {
+    local selected="$(fd --hidden --color=always --exclude='.git' --type=d . $(git rev-parse --show-cdup 2> /dev/null) | fzf --preview "fzf-preview-directory '{}'" --preview-window=right:50%)"
+    if [ -n "$selected" ]; then
+        BUFFER="cd $selected"
+        zle accept-line
+    fi
+    zle -R -c # refresh screen
+}
+
+zle -N select_history
+zle -N select_cdr
+zle -N select_ghq
+zle -N select_ghq_go
+zle -N select_dir
+
+bindkey -v
+bindkey "^R"       select_history        # C-r
+bindkey "^F"       select_cdr            # C-f
+bindkey "^G"       select_ghq            # C-g
+bindkey "^[g"      select_ghq_go         # Alt-g
+bindkey "^O"       select_dir            # C-o
+bindkey "^A"       beginning-of-line     # C-a
+bindkey "^E"       end-of-line           # C-e
+bindkey "^?"       backward-delete-char  # backspace
+bindkey "^[[3~"    delete-char           # delete
+bindkey "^[[1;3D"  backward-word         # Alt + arrow-left
+bindkey "^[[1;3C"  forward-word          # Alt + arrow-right
+bindkey "^[^?"     vi-backward-kill-word # Alt + backspace
+bindkey "^[[1;33~" kill-word             # Alt + delete
+
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
