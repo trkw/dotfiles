@@ -83,3 +83,7 @@ linux*)
 esac
 alias grep='grep --color=auto'
 alias his='history'
+
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
+export CPPFLAGS="-I/usr/local/opt/openjdk/include"
+export PATH="/usr/local/opt/avr-gcc@7/bin:$PATH"
