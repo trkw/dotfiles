@@ -13,7 +13,6 @@
     state: link
   with_items:
     - .zshrc
-    - .zinit
     - .gitconfig
 
 # for zsh compinit err fix
