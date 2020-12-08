@@ -29,7 +29,6 @@ cask "iterm2"
 cask "notion"
 cask "slack"
 cask "visual-studio-code"
-cask "virtualbox"
 mas "Keynote", id: 409183694
 mas "LINE", id: 539883307
 mas "Numbers", id: 409203825
